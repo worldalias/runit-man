@@ -1,0 +1,72 @@
+PATH
+  remote: .
+  specs:
+    runit-man (2.4.12)
+      file-tail (~> 1.0.7)
+      haml (~> 3.0)
+      i18n (~> 0.5)
+      sinatra (~> 1.3)
+      sinatra-content-for2 (~> 0.2.4)
+      yajl-ruby (~> 1.0)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    diff-lcs (1.2.5)
+    file-tail (1.0.12)
+      tins (~> 0.5)
+    haml (3.1.8)
+    i18n (0.7.0)
+    kgio (2.10.0)
+    rack (1.6.4)
+    rack-protection (1.5.3)
+      rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
+    rainbows (4.6.2)
+      kgio (~> 2.5)
+      rack (~> 1.1)
+      unicorn (~> 4.8)
+    raindrops (0.15.0)
+    rake (0.9.6)
+    redcarpet (1.17.2)
+    ripper (1.0.5)
+    rr (1.1.2)
+    rspec-core (3.3.2)
+      rspec-support (~> 3.3.0)
+    rspec-expectations (3.3.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.3.0)
+    rspec-support (3.3.0)
+    sendfile (1.2.2)
+    sinatra (1.4.6)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    sinatra-content-for2 (0.2.4)
+      sinatra
+    tilt (2.0.1)
+    tins (0.13.2)
+    unicorn (4.9.0)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
+    yajl-ruby (1.2.1)
+    yard (0.7.5)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.0, > 1.0.10)
+  rack-test
+  rainbows
+  rake (~> 0.8, != 0.9.0)
+  redcarpet (~> 1.17.2)
+  ripper
+  rr
+  rspec-core
+  rspec-expectations
+  runit-man!
+  sendfile
+  yard (~> 0.7.5)

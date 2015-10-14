@@ -4,7 +4,6 @@
 .vagrant
 .yardoc/
 doc/
-Gemfile.lock
 .DS_Store
 .ruby-version
 .ruby-gemset
