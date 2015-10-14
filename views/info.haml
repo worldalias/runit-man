@@ -1,0 +1,22 @@
+- content_for(:content) do
+  %h2
+    runit-man v
+    %strong= h(RunitMan::VERSION)
+  %br/
+  %blockquote
+    %div
+      %br/
+      = "#{h(t('runit.info.server'))}: #{h(@server)}"
+    %div
+      = "#{h(t('runit.info.rack'))}: #{h(@rack_version)}"
+    %br/
+  %blockquote
+    %div
+      %br/
+      = h(t(@large_files ?  'runit.info.large_files.yes' : 'runit.info.large_files.no'))
+    %div
+      = h(t(@sendfile ? 'runit.info.sendfile.yes' : 'runit.info.sendfile.no'))
+    %br/
+- content_for(:footer) do
+  %span
+

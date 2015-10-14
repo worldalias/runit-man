@@ -1,0 +1,9 @@
+*.sw?
+*.gem
+.bundle/
+.vagrant
+.yardoc/
+doc/
+Gemfile.lock
+.DS_Store
+

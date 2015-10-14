@@ -1,0 +1,48 @@
+- need_second_row = !own_service_info.files_to_view.empty? || !own_service_info.urls_to_view.empty?
+%tr{:class=> even_or_odd ? 'even' : 'odd'}
+  %td{:rowspan=> need_second_row ? 2 : 1}= h(own_service_info.pid)
+  %th{:scope=>"row"}
+    - unless own_service_info.watched_modified_files.empty?
+      %span.danger{:title => own_service_info.watched_modified_files.map { |rec| "#{rec[:path]} #{I18n.l(rec[:mtime])}" }.join(', ')}
+        =  '→ ' + h(own_service_info.name.split(@sv_del)[2])
+    - else
+      = '→ ' + h(own_service_info.name.split(@sv_del)[2])
+  %td= own_service_info.started_at ? own_service_info.started_at.utc : ''
+  %td= own_service_info.uptime ? ('%.2f' % own_service_info.uptime) : ''
+  %td= stat_subst(own_service_info.stat)
+  %td
+    - if readonly?
+      %strong= t('runit.services.readonly')
+    - else
+      - if own_service_info.active?
+        = service_action own_service_info.name, :restart, t('runit.services.table.actions.restart'), !own_service_info.down?
+        = service_action own_service_info.name, :down, t('runit.services.table.actions.stop'), !own_service_info.down?
+        = service_action own_service_info.name, :up, t('runit.services.table.actions.start'), own_service_info.down?
+        - unless own_service_info.down?
+          - own_service_info.allowed_signals.each do |signal|
+            = service_signal own_service_info.name, signal, t("runit.services.table.signals.#{signal}")
+        - if own_service_info.switchable?
+          = service_action own_service_info.name, :switch_down, t('runit.services.table.actions.switch_down')
+      - else
+        - if own_service_info.switchable?
+          = service_action own_service_info.name, :switch_up, t('runit.services.table.actions.switch_up')
+  %td
+    - if own_service_info.logged?
+      = log_link(own_service_info.name, :hint => t('runit.services.table.values.log_hint', :name => own_service_info.name), :title => own_service_info.log_file_locations.join(', '))
+      = log_downloads_link(own_service_info.name)
+    - else
+      = t('runit.services.table.values.log_absent')
+- if need_second_row
+  %tr
+    %td{:colspan=>6}
+      - unless own_service_info.files_to_view.empty?
+        = h(t('runit.services.table.values.files_to_view'))
+        %span :
+        - own_service_info.files_to_view.each do |f|
+          %a{:href=>"/view?file=#{f}"}= h(f)
+      - unless own_service_info.urls_to_view.empty?
+        = h(t('runit.services.table.values.urls_to_view'))
+        %span :
+        - own_service_info.urls_to_view.each do |url|
+          %a{:href=>url}= h(url)
+

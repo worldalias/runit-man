@@ -1,0 +1,24 @@
+- content_for :content do
+  %h2= h(name)
+  %h3= h(t('runit.services.log.downloads'))
+  %table
+    %thead
+      %tr
+        %th= h(t('runit.services.log.modified'))
+        %th= h(t('runit.services.log.file_name'))
+        %th= h(t('runit.services.log.file_size'))
+        %th
+    %tfoot
+      %tr
+        %td{:colspan=>4}= h(t('runit.services.log.about_utc'))
+    %tbody
+      - files.each do |f|
+        %tr{:class=> even_or_odd ? 'even' : 'odd'}
+          %td= h(I18n.l(f[:modified]))
+          %td= h(f[:label])
+          %td{:title=>h(f[:size])}= h(human_bytes(f[:size]))
+          %td
+            - filenamewithsubdir = f[:subdir] ? h(f[:subdir])+'/'+h(f[:name]) : h(f[:name])
+            %a{:href=>"/#{h(name)}/log-download/#{filenamewithsubdir}"}
+              = h(t('runit.services.log.download'))
+              &hellip;

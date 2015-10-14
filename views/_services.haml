@@ -1,0 +1,50 @@
+
+- @sv_del = '__'
+- own_services = service_infos.select{|s| s.name.include?(@sv_del)}
+- vendor_services = service_infos.select{|s| !s.name.include?(@sv_del)}
+- countries = own_services.map{|i| i.name.split(@sv_del)[0]}.uniq
+- stages   = own_services.map{|i| i.name.split(@sv_del)[1]}.uniq
+- apps = own_services.map{|i| i.name.split(@sv_del)[3]}.uniq
+
+%table.table.table-stripped.table-hover
+  %caption= h(t('runit.services.table.caption'))
+  %thead
+    %tr
+      %th= h(t('runit.services.table.headers.pid'))
+      %th= h(t('runit.services.table.headers.name'))
+      %th= h(t('runit.services.table.headers.started_at'))
+      %th= h(t('runit.services.table.headers.uptime'))
+      %th= h(t('runit.services.table.headers.stat'))
+      %th= h(t('runit.services.table.headers.actions'))
+      %th= h(t('runit.services.table.headers.log_file'))
+  %tfoot
+    %tr
+      %td{:colspan=>7}= t('runit.services.table.footer', :time => h(Time.now.utc))
+  %tbody
+    %tr.error
+      %td{:colspan=>7}
+        %center
+          %h8 ↓ System Services ↓
+    = partial(:service_info, :collection => vendor_services)
+    - countries.each do |c|
+      %tr.warning
+        %td.country{:colspan=>7}
+          %center
+            %b= c.upcase
+      - stages.each do |stage|
+        %tr.info
+          %td.stage{:colspan=>7}
+            %center
+              %b= "↓ #{stage.upcase} => [ #{c.upcase} ] ↓"
+        - apps.each do |app|
+          - filtered_services = own_services.select{|i| i.name.include?("#{c}#{@sv_del}#{stage}") && i.name.split(@sv_del).last == app }
+          - if filtered_services.count > 0
+            %tr.success
+              %td.app{:colspan=>7}
+                %strong= app.upcase
+                %b= "=> [Country: <b>#{c.upcase}</b>, Stage: <b>#{stage.upcase}</b> ]"
+            = partial(:own_service_info, :collection => filtered_services)
+%ul
+  - files_to_view.each do |f|
+    %li
+      %a{:href=>"/view?file=#{f}"}= h(f)
